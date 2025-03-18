@@ -7,7 +7,7 @@ if [ $# -ne 1 ]; then
 fi
 
 # Check if AWS CLI is installed
-if ! [ -x /usr/local/bin/aws ]; then
+if ! [ -x /usr/bin/aws ]; then
     echo "AWS CLI not found. Installing..."
     TEMP_AWS_DIR=$(mktemp -d)
     AWS_ZIP="awscli-exe-linux-x86_64.zip"
@@ -52,12 +52,15 @@ fi
 
 SOURCE_URL="$1"
 MODEL_FILENAME=$(basename "$SOURCE_URL")
-S3_BUCKET_NAME=$(echo "$MODEL_FILENAME" | sed 's/[^a-zA-Z0-9-]/-/g' | sed 's/^-*//;s/-*$//' | tr '[:upper:]' '[:lower:]') # Create bucket name from filename
+S3_BUCKET_NAME=$(echo "$MODEL_FILENAME" | sed 's/[^a-zA-Z0-9-]/-/g' | sed 's/^-*//;s/-*$//' | tr '[:upper:]' '[:lower:]') # Create buc
+ket name from filename
 DEST_S3_URI="s3://$S3_BUCKET_NAME"
-TEMP_DIR=$(mktemp -d)
+TEMP_DIR=./tmp
 MODEL_PATH="$TEMP_DIR/$MODEL_FILENAME"
 SPLIT_PREFIX="$TEMP_DIR/split_"
 SPLIT_SIZE="2G"
+
+mkdir "$TEMP_DIR"
 
 # Download the model file
 echo "Downloading model from $SOURCE_URL to $MODEL_PATH..."
