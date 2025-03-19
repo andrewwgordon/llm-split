@@ -52,8 +52,7 @@ fi
 
 SOURCE_URL="$1"
 MODEL_FILENAME=$(basename "$SOURCE_URL")
-S3_BUCKET_NAME=$(echo "$MODEL_FILENAME" | sed 's/[^a-zA-Z0-9-]/-/g' | sed 's/^-*//;s/-*$//' | tr '[:upper:]' '[:lower:]') # Create buc
-ket name from filename
+S3_BUCKET_NAME=$(echo "$MODEL_FILENAME" | sed 's/[^a-zA-Z0-9-]/-/g' | sed 's/^-*//;s/-*$//' | tr '[:upper:]' '[:lower:]') # Create bucket name from filename
 DEST_S3_URI="s3://$S3_BUCKET_NAME"
 TEMP_DIR=./tmp
 MODEL_PATH="$TEMP_DIR/$MODEL_FILENAME"
